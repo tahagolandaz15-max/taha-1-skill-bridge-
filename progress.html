@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Progress Tracker | SkillBridge AI</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #f5f6ff;
+  color: #252545;
+  padding: 25px;
+}
+
+.container {
+  max-width: 850px;
+  margin: 25px auto;
+}
+
+.back {
+  display: inline-block;
+  color: #4f46e5;
+  text-decoration: none;
+  margin-bottom: 25px;
+}
+
+h1 {
+  color: #4f46e5;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 25px;
+}
+
+.card {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+
+.progress-number {
+  font-size: 38px;
+  font-weight: bold;
+  color: #4f46e5;
+  margin: 15px 0;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 13px;
+  background: #e5e7eb;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: #4f46e5;
+  transition: width 0.3s;
+}
+
+.skill-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.skill-item:last-child {
+  border-bottom: none;
+}
+
+.skill-item input {
+  width: 18px;
+  height: 18px;
+  accent-color: #4f46e5;
+  cursor: pointer;
+}
+
+.skill-item label {
+  cursor: pointer;
+}
+
+.stats {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.stat {
+  flex: 1;
+  background: #f8f8ff;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.stat h2 {
+  color: #4f46e5;
+  margin-bottom: 5px;
+}
+
+button {
+  background: #4f46e5;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+button:hover {
+  background: #3730a3;
+}
+
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<a href="roadmap.html" class="back">← Back to Roadmap</a>
+
+<h1>My Learning Progress</h1>
+<p class="subtitle">Track your learning journey and completed skills.</p>
+
+<div class="card">
+  <h2>Overall Progress</h2>
+  <div class="progress-number" id="percentage">0%</div>
+
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <h2 id="completed">0</h2>
+      <p>Completed</p>
+    </div>
+
+    <div class="stat">
+      <h2 id="pending">0</h2>
+      <p>Remaining</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>My Skills Checklist</h2>
+  <div id="skillList"></div>
+
+  <button id="resetButton">Reset Progress</button>
+</div>
+
+</div>
+
+<script>
+
+const career = sessionStorage.getItem("career") || "Not selected";
+
+const savedSkills = JSON.parse(
+    sessionStorage.getItem("missingSkills") || "[]"
+);
+
+const defaultPaths = {
+    "AI / ML Engineer": ["Python", "Mathematics", "Machine Learning", "SQL"],
+    "Software Developer": ["Programming", "Data Structures", "Git", "Problem Solving"],
+    "Data Scientist": ["Python", "Statistics", "SQL", "Data Visualization"],
+    "Web Developer": ["HTML", "CSS", "JavaScript", "React"],
+    "UI / UX Designer": ["Figma", "Wireframing", "Prototyping", "User Research"]
+};
+
+const skills = savedSkills.length > 0
+    ? savedSkills
+    : (defaultPaths[career] || ["Fundamentals", "Core Skills", "Practice", "Projects"]);
+
+let completedSkills = [];
+
+const skillList = document.getElementById("skillList");
+
+async function saveProgress() {
+    const response = await fetch("http://127.0.0.1:5000/api/progress", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            career: career,
+            completed_skills: completedSkills
+        })
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+        throw new Error(result.message || "Could not save progress");
+    }
+
+    return result;
+}
+
+function renderProgress() {
+    skillList.replaceChildren();
+
+    skills.forEach(skill => {
+        const item = document.createElement("div");
+        item.className = "skill-item";
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = completedSkills.includes(skill);
+        checkbox.id = "skill-" + skill;
+
+        checkbox.addEventListener("change", async () => {
+            if (checkbox.checked) {
+                if (!completedSkills.includes(skill)) {
+                    completedSkills.push(skill);
+                }
+            } else {
+                completedSkills = completedSkills.filter(s => s !== skill);
+            }
+
+            renderProgress();
+
+            try {
+                await saveProgress();
+            } catch (error) {
+                alert("Progress save failed: " + error.message);
+            }
+        });
+
+        const label = document.createElement("label");
+        label.htmlFor = checkbox.id;
+        label.textContent = skill;
+
+        item.append(checkbox, label);
+        skillList.appendChild(item);
+    });
+
+    const total = skills.length;
+    const done = completedSkills.length;
+    const percent = total > 0 ? Math.round((done / total) * 100) : 0;
+
+    document.getElementById("percentage").textContent = percent + "%";
+    document.getElementById("progressFill").style.width = percent + "%";
+    document.getElementById("completed").textContent = done;
+    document.getElementById("pending").textContent = total - done;
+}
+
+async function loadProgress() {
+    skillList.textContent = "Loading progress...";
+
+    try {
+        const response = await fetch(
+            "http://127.0.0.1:5000/api/progress?career=" +
+            encodeURIComponent(career)
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.message || "Could not load progress");
+        }
+
+        completedSkills = result.completed_skills || [];
+        renderProgress();
+
+    } catch (error) {
+        skillList.textContent = "Progress loading failed: " + error.message;
+        console.error(error);
+    }
+}
+
+document.getElementById("resetButton").addEventListener("click", async () => {
+    completedSkills = [];
+    renderProgress();
+
+    try {
+        await saveProgress();
+    } catch (error) {
+        alert("Reset failed: " + error.message);
+    }
+});
+
+loadProgress();
+
+</script>
+
+</body>
+</html>

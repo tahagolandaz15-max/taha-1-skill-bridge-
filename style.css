@@ -1,0 +1,389 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #f8f8ff;
+    color: #202044;
+}
+
+/* Navigation */
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 8%;
+    background: white;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.logo span {
+    color: #7654e8;
+}
+
+nav {
+    display: flex;
+    gap: 35px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #555570;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+nav a:hover {
+    color: #7654e8;
+}
+
+.nav-button,
+.primary-button {
+    background: #7654e8;
+    color: white;
+    padding: 13px 22px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.nav-button:hover,
+.primary-button:hover {
+    background: #6040cf;
+}
+
+/* Hero section */
+
+.hero {
+    min-height: 570px;
+    padding: 90px 8%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 55px;
+    background: linear-gradient(120deg, #f0edff, #fff5f1);
+}
+
+.hero-content {
+    max-width: 570px;
+}
+
+.tag {
+    color: #7654e8;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.hero h1 {
+    font-size: clamp(38px, 5vw, 58px);
+    line-height: 1.15;
+    margin: 22px 0;
+    font-weight: 800;
+}
+
+.hero h1 span {
+    color: #7654e8;
+}
+
+.hero-content > p {
+    color: #66667d;
+    line-height: 1.8;
+    font-size: 16px;
+    max-width: 490px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.secondary-button {
+    border: 1px solid #7654e8;
+    color: #7654e8;
+    padding: 13px 22px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Dashboard card */
+
+.dashboard-card {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    width: 390px;
+    max-width: 100%;
+    box-shadow: 0 15px 50px rgba(80, 60, 150, 0.12);
+}
+
+.dashboard-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.dashboard-top h3 {
+    font-size: 17px;
+}
+
+.dashboard-top span {
+    background: #eee9ff;
+    color: #7654e8;
+    padding: 7px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.score {
+    text-align: center;
+    margin: 28px 0;
+    padding: 22px;
+    background: #f5f2ff;
+    border-radius: 15px;
+}
+
+.score strong {
+    font-size: 48px;
+    color: #7654e8;
+}
+
+.score p {
+    color: #77778d;
+    font-size: 13px;
+}
+
+.dashboard-card h4 {
+    margin-bottom: 20px;
+}
+
+.skill {
+    margin-bottom: 18px;
+}
+
+.skill > div:first-child {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 9px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.progress {
+    height: 9px;
+    background: #eeeaf8;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress span {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, #7654e8, #b18cff);
+    border-radius: 20px;
+}
+
+.dashboard-card small {
+    color: #888;
+    font-size: 10px;
+}
+
+/* Features */
+
+.features {
+    padding: 85px 8%;
+    text-align: center;
+}
+
+.section-heading h2 {
+    font-size: 34px;
+    margin: 15px 0;
+}
+
+.section-heading p {
+    color: #77778d;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-top: 45px;
+}
+
+.feature-card {
+    background: white;
+    padding: 35px 25px;
+    border-radius: 17px;
+    box-shadow: 0 8px 30px rgba(50, 40, 100, 0.06);
+    transition: transform 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-7px);
+}
+
+.feature-icon {
+    font-size: 35px;
+    margin-bottom: 18px;
+}
+
+.feature-card h3 {
+    margin-bottom: 12px;
+}
+
+.feature-card p {
+    color: #77778d;
+    line-height: 1.7;
+    font-size: 14px;
+}
+
+/* How it works */
+
+.how-it-works {
+    padding: 85px 8%;
+    text-align: center;
+    background: #f0edff;
+}
+
+.steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-top: 45px;
+}
+
+.step {
+    background: white;
+    padding: 35px 20px;
+    border-radius: 16px;
+}
+
+.step > span {
+    display: inline-block;
+    color: #7654e8;
+    font-size: 30px;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+.step p {
+    color: #77778d;
+    margin-top: 12px;
+    line-height: 1.7;
+}
+
+/* Call to action */
+
+.cta {
+    margin: 75px 8%;
+    padding: 65px 25px;
+    text-align: center;
+    border-radius: 22px;
+    color: white;
+    background: linear-gradient(120deg, #7654e8, #a06df2);
+}
+
+.cta h2 {
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.cta p {
+    margin-bottom: 25px;
+    color: #eee8ff;
+}
+
+.cta .primary-button {
+    background: white;
+    color: #7654e8;
+}
+
+/* Footer */
+
+footer {
+    background: #202044;
+    color: white;
+    padding: 40px 8%;
+    text-align: center;
+}
+
+footer p {
+    color: #c4c3d6;
+    margin: 12px 0;
+}
+
+footer small {
+    color: #9998b1;
+}
+
+/* Mobile responsive */
+
+@media (max-width: 850px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 65px 6%;
+    }
+
+    .hero-content > p {
+        margin: auto;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .feature-grid,
+    .steps {
+        grid-template-columns: 1fr;
+    }
+
+    nav {
+        display: none;
+    }
+
+    .navbar {
+        padding: 18px 5%;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-button {
+        padding: 10px 13px;
+        font-size: 12px;
+    }
+
+    .dashboard-card {
+        padding: 22px;
+    }
+
+    .section-heading h2 {
+        font-size: 27px;
+    }
+
+    .cta h2 {
+        font-size: 25px;
+    }
+}
